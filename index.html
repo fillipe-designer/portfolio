@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Fillipe Designer | Portfólio Premium</title>
     
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <meta property="og:title" content="Fillipe Designer | Portfólio Premium">
+    <meta property="og:description" content="Especialista em criar identidades visuais marcantes e peças gráficas que comunicam o valor do seu negócio.">
+    <meta property="og:image" content="logo.png">
+    <meta property="og:type" content="website">
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
@@ -14,7 +22,7 @@
             --branco-cromo: radial-gradient(circle at 50% 0%, #ffffff 0%, #e8e8f0 40%, #c4c4cc 100%);
             --texto-escuro: #1a1a1a;
             --texto-claro: #444;
-            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-bg: rgba(255, 255, 255, 0.85); /* Sem desfoque para ver as partículas */
         }
 
         * {
@@ -46,17 +54,36 @@
             position: absolute;
             background: var(--roxo-gradiente);
             border-radius: 50%;
-            filter: blur(4px);
-            opacity: 0.5;
+            /* Desfoque leve apenas na partícula, sem embaçar a tela */
+            filter: blur(2px); 
+            opacity: 0.8;
             animation: floatParticle linear infinite;
         }
 
         @keyframes floatParticle {
             0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-            20% { opacity: 0.6; }
-            80% { opacity: 0.6; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
             100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
         }
+
+        /* ================= CLASSES DE ANIMAÇÃO DE SCROLL (ENTRADA E SAÍDA) ================= */
+        .hidden-anim {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* Curva suave de entrada */
+        }
+
+        .show-anim {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Atrasos para os cards aparecerem um de cada vez */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
 
         /* ================= MARQUEE ================= */
         .top-marquee {
@@ -142,7 +169,6 @@
             font-weight: 500;
         }
 
-        /* LOGO 3D */
         .logo-3d {
             width: 100%;
             max-width: 550px;
@@ -158,8 +184,8 @@
 
         /* ================= SOBRE MIM ================= */
         .sobre {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            /* Fundo semi-transparente sólido, sem o desfoque, para ver as partículas */
+            background: rgba(255, 255, 255, 0.4);
             border-top: 1px solid rgba(255,255,255,0.5);
             border-bottom: 1px solid rgba(255,255,255,0.5);
         }
@@ -197,32 +223,35 @@
             width: 100%;
             border-radius: 15px;
             box-shadow: 10px 10px 30px rgba(0,0,0,0.15);
-            transition: all 0.5s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease; /* Removido o 'all' para não conflitar com a animação de scroll */
             padding: 4px;
             background: var(--roxo-gradiente);
+            display: flex; /* Ajuda a preencher o espaço */
         }
 
         .item-galeria img {
             width: 100%;
-            height: auto;
+            /* O segredo para não bugar: formato perfeitamente quadrado e preenchimento total */
+            aspect-ratio: 1 / 1; 
+            object-fit: cover; 
             border-radius: 11px;
             display: block;
             background-color: #222;
         }
 
-        .item-galeria:nth-child(odd) { transform: translateY(15px); }
-        .item-galeria:nth-child(even) { transform: translateY(-15px); }
+        .item-galeria:nth-child(odd) { margin-top: 15px; }
+        .item-galeria:nth-child(even) { margin-top: -15px; }
 
         .item-galeria:hover {
-            transform: scale(1.05) translateY(-5px);
+            transform: scale(1.05) translateY(-5px) !important;
             box-shadow: 0 20px 40px rgba(138, 43, 226, 0.5);
             z-index: 10;
         }
 
-        /* ================= DEPOIMENTOS ================= */
+        /* ================= DEPOIMENTOS (TELA INTEIRA) ================= */
         .depoimentos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 40px;
             max-width: 1000px;
             margin: 0 auto;
@@ -230,31 +259,30 @@
 
         .card-depoimento {
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
             padding: 40px 30px;
             border-radius: 20px;
             text-align: center;
             border: 1px solid rgba(138, 43, 226, 0.3);
             box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-            transition: all 0.4s ease;
-            position: relative;
+            transition: transform 0.4s ease, border-color 0.4s ease;
         }
 
         .card-depoimento:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) !important;
             border-color: rgba(209, 0, 255, 0.8);
             box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
         }
 
+        /* Foto/Print do Depoimento Ajustado */
         .card-depoimento img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 4px solid #fff;
+            width: 100%; /* Preenche a largura do card */
+            height: auto;
+            max-height: 450px; /* Evita que o print fique gigantesco */
+            border-radius: 10px;
+            object-fit: contain; /* Garante que a imagem NÃO seja cortada */
+            margin-bottom: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            background: var(--roxo-gradiente);
+            background: #000; /* Fundo escuro para caso o print seja menor */
         }
 
         .card-depoimento p {
@@ -282,15 +310,15 @@
         }
 
         .card-servico {
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.9);
             padding: 30px 20px;
             border-radius: 15px;
             text-align: center;
             font-weight: 900;
             font-size: 1.1rem;
             color: var(--texto-escuro);
-            transition: all 0.4s ease;
+            transition: transform 0.4s ease, color 0.4s ease;
             cursor: default;
             position: relative;
             overflow: hidden;
@@ -308,7 +336,7 @@
 
         .card-servico:hover {
             color: white;
-            transform: scale(1.05);
+            transform: scale(1.05) !important;
             box-shadow: 0 10px 25px rgba(138, 43, 226, 0.3);
             border-color: transparent;
         }
@@ -344,10 +372,8 @@
             background-image: linear-gradient(rgba(20, 20, 20, 0.85), rgba(20, 20, 20, 0.85)), var(--roxo-gradiente);
             background-origin: border-box;
             background-clip: padding-box, border-box;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
         }
 
         .card-contato svg {
@@ -358,7 +384,7 @@
         }
 
         .card-contato:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-10px) scale(1.02) !important;
             box-shadow: 0 20px 40px rgba(138, 43, 226, 0.5);
         }
 
@@ -388,7 +414,7 @@
             .hero .text-side { padding-right: 0; margin-bottom: 40px; }
             h1 { font-size: 3rem; }
             h2.titulo-secao { font-size: 2.2rem; }
-            .item-galeria:nth-child(odd), .item-galeria:nth-child(even) { transform: translateY(0); }
+            .item-galeria:nth-child(odd), .item-galeria:nth-child(even) { margin-top: 0; }
             .contato-grid { flex-direction: column; align-items: center; }
             .card-contato { width: 100%; justify-content: center; }
         }
@@ -412,51 +438,51 @@
     </div>
 
     <section class="hero">
-        <div class="text-side">
+        <div class="text-side hidden-anim">
             <h1>Fillipe<br><span>Designer</span></h1>
             <p>Especialista em criar identidades visuais marcantes e peças gráficas que comunicam o valor do seu negócio. O design não é apenas sobre parecer bonito, é sobre funcionar perfeitamente.</p>
         </div>
-        <div class="image-side" id="3d-container">
+        <div class="image-side hidden-anim delay-2" id="3d-container">
             <img src="logo.png" alt="Logo Fillipe Designer" class="logo-3d" id="logo-img">
         </div>
     </section>
 
-    <section class="sobre">
+    <section class="sobre hidden-anim">
         <div class="sobre-container">
             <h2 class="titulo-secao">Sobre <span>Mim</span></h2>
-            <p>Sou designer especialista em Social Media, com 3 anos de experiência desenvolvendo identidades visuais e estratégias de conteúdo para marcas que desejam se posicionar de forma profissional no digital.</p>
-            <p>Meu trabalho não é apenas criar artes bonitas. É construir presença, percepção de valor e autoridade. Cada projeto é pensado estrategicamente para fortalecer a imagem da marca e gerar impacto real.</p>
-            <p>Acredito que design é posicionamento. Empresas que comunicam com clareza vendem mais, atraem melhores clientes e se destacam em um mercado cada vez mais competitivo.</p>
-            <p>Minha trajetória no design começou ainda na adolescência, quando criei meu primeiro canal no YouTube e passei a desenvolver minhas próprias thumbnails, logos e banners. Foi ali que percebi o poder da comunicação visual.</p>
-            <p>Aos 15 anos, enxerguei no crescimento do mercado digital e do home office uma oportunidade real de transformar essa habilidade em profissão. Desde então, venho estudando, aperfeiçoando técnicas e desenvolvendo projetos de forma estratégica.</p>
-            <p>Hoje, atuo criando identidades visuais e conteúdos para marcas que desejam se posicionar com autoridade e elevar seu padrão de comunicação no ambiente digital. Se a sua marca precisa sair do amadorismo e assumir uma presença forte no mercado, eu posso construir isso com você.</p>
+            <div class="hidden-anim delay-1"><p>Sou designer especialista em Social Media, com 3 anos de experiência desenvolvendo identidades visuais e estratégias de conteúdo para marcas que desejam se posicionar de forma profissional no digital.</p></div>
+            <div class="hidden-anim delay-2"><p>Meu trabalho não é apenas criar artes bonitas. É construir presença, percepção de valor e autoridade. Cada projeto é pensado estrategicamente para fortalecer a imagem da marca e gerar impacto real.</p></div>
+            <div class="hidden-anim delay-3"><p>Acredito que design é posicionamento. Empresas que comunicam com clareza vendem mais, atraem melhores clientes e se destacam em um mercado cada vez mais competitivo.</p></div>
+            <div class="hidden-anim delay-1"><p>Minha trajetória no design começou ainda na adolescência, quando criei meu primeiro canal no YouTube e passei a desenvolver minhas próprias thumbnails, logos e banners. Foi ali que percebi o poder da comunicação visual.</p></div>
+            <div class="hidden-anim delay-2"><p>Aos 15 anos, enxerguei no crescimento do mercado digital e do home office uma oportunidade real de transformar essa habilidade em profissão. Desde então, venho estudando, aperfeiçoando técnicas e desenvolvendo projetos de forma estratégica.</p></div>
+            <div class="hidden-anim delay-3"><p>Hoje, atuo criando identidades visuais e conteúdos para marcas que desejam se posicionar com autoridade e elevar seu padrão de comunicação no ambiente digital. Se a sua marca precisa sair do amadorismo e assumir uma presença forte no mercado, eu posso construir isso com você.</p></div>
         </div>
     </section>
 
     <section class="portfolio">
-        <h2 class="titulo-secao">Meus <span>Trabalhos</span></h2>
+        <h2 class="titulo-secao hidden-anim">Meus <span>Trabalhos</span></h2>
         <div class="galeria-espalhada">
-            <div class="item-galeria"><img src="img.1.png" alt="Trabalho 1"></div>
-            <div class="item-galeria"><img src="img.2.png" alt="Trabalho 2"></div>
-            <div class="item-galeria"><img src="img.3.png" alt="Trabalho 3"></div>
-            <div class="item-galeria"><img src="img.4.png" alt="Trabalho 4"></div>
-            <div class="item-galeria"><img src="img.5.png" alt="Trabalho 5"></div>
-            <div class="item-galeria"><img src="img.6.png" alt="Trabalho 6"></div>
-            <div class="item-galeria"><img src="img.7.png" alt="Trabalho 7"></div>
-            <div class="item-galeria"><img src="img.8.png" alt="Trabalho 8"></div>
+            <div class="item-galeria hidden-anim delay-1"><img src="img.1.png" alt="Trabalho 1"></div>
+            <div class="item-galeria hidden-anim delay-2"><img src="img.2.png" alt="Trabalho 2"></div>
+            <div class="item-galeria hidden-anim delay-3"><img src="img.3.png" alt="Trabalho 3"></div>
+            <div class="item-galeria hidden-anim delay-1"><img src="img.4.png" alt="Trabalho 4"></div>
+            <div class="item-galeria hidden-anim delay-2"><img src="img.5.png" alt="Trabalho 5"></div>
+            <div class="item-galeria hidden-anim delay-3"><img src="img.6.png" alt="Trabalho 6"></div>
+            <div class="item-galeria hidden-anim delay-1"><img src="img.7.png" alt="Trabalho 7"></div>
+            <div class="item-galeria hidden-anim delay-2"><img src="img.8.png" alt="Trabalho 8"></div>
         </div>
     </section>
 
     <section class="depoimentos">
-        <h2 class="titulo-secao">O Que Dizem <span>Sobre Meu Trabalho</span></h2>
+        <h2 class="titulo-secao hidden-anim">O Que Dizem <span>Sobre Meu Trabalho</span></h2>
         <div class="depoimentos-grid">
-            <div class="card-depoimento">
-                <img src="depoimento.1.jpeg" alt="Depoimento 1">
+            <div class="card-depoimento hidden-anim delay-1">
+                <img src="depoimento.1.jpeg" alt="Print de Depoimento 1">
                 <p>"Responsável pela gestão do Instagram de loja no segmento E-commerce"</p>
                 <h4>Parceiro E-commerce</h4>
             </div>
-            <div class="card-depoimento">
-                <img src="depoimento.2.jpeg" alt="Depoimento 2">
+            <div class="card-depoimento hidden-anim delay-2">
+                <img src="depoimento.2.jpeg" alt="Print de Depoimento 2">
                 <p>"Guia turística brasileira atuando no mercado europeu 🇪🇸"</p>
                 <h4>Junia Vieira | VIAJESGRANVÍA</h4>
             </div>
@@ -464,30 +490,30 @@
     </section>
 
     <section class="servicos">
-        <h2 class="titulo-secao">O Que Exatamente <span>Eu Faço</span></h2>
+        <h2 class="titulo-secao hidden-anim">O Que Exatamente <span>Eu Faço</span></h2>
         <div class="servicos-grid">
-            <div class="card-servico">FLYER COMERCIAL</div>
-            <div class="card-servico">FLYER FESTIVO</div>
-            <div class="card-servico">FLYER ESPORTIVO</div>
-            <div class="card-servico">LOGO</div>
-            <div class="card-servico">CAMISAS</div>
-            <div class="card-servico">MOTION FLYERS</div>
-            <div class="card-servico">CONVITES</div>
-            <div class="card-servico">PDFS</div>
-            <div class="card-servico">SITES DE ENTRADA</div>
+            <div class="card-servico hidden-anim delay-1">FLYER COMERCIAL</div>
+            <div class="card-servico hidden-anim delay-2">FLYER FESTIVO</div>
+            <div class="card-servico hidden-anim delay-3">FLYER ESPORTIVO</div>
+            <div class="card-servico hidden-anim delay-1">LOGO</div>
+            <div class="card-servico hidden-anim delay-2">CAMISAS</div>
+            <div class="card-servico hidden-anim delay-3">MOTION FLYERS</div>
+            <div class="card-servico hidden-anim delay-1">CONVITES</div>
+            <div class="card-servico hidden-anim delay-2">PDFS</div>
+            <div class="card-servico hidden-anim delay-3">SITES DE ENTRADA</div>
         </div>
     </section>
 
     <section class="contato">
-        <h2 class="titulo-secao">Vamos <span>Conversar?</span></h2>
+        <h2 class="titulo-secao hidden-anim">VAMOS PLANEJAR O VISUAL DA <span>SUA EMPRESA?</span></h2>
         <div class="contato-grid">
-            <a href="https://wa.me/5533998114025" target="_blank" class="card-contato">
+            <a href="https://wa.me/5533998114025" target="_blank" class="card-contato hidden-anim delay-1">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
                 </svg>
                 WhatsApp
             </a>
-            <a href="https://instagram.com/fillipe.designer" target="_blank" class="card-contato">
+            <a href="https://instagram.com/fillipe.designer" target="_blank" class="card-contato hidden-anim delay-2">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm3.98-10.834a1.44 1.44 0 1 1 2.88 0 1.44 1.44 0 0 1-2.88 0z"/>
                 </svg>
@@ -523,22 +549,42 @@
         // Gerador de Partículas
         function criarParticulas() {
             const container = document.getElementById('particles-container');
-            const quantidade = window.innerWidth < 768 ? 15 : 30;
+            const quantidade = window.innerWidth < 768 ? 20 : 40;
 
             for (let i = 0; i < quantidade; i++) {
                 let particula = document.createElement('div');
                 particula.classList.add('particle');
-                let tamanho = Math.random() * 15 + 5;
+                let tamanho = Math.random() * 12 + 4;
                 particula.style.width = `${tamanho}px`;
                 particula.style.height = `${tamanho}px`;
                 particula.style.left = `${Math.random() * 100}vw`;
-                particula.style.animationDuration = `${Math.random() * 5 + 3}s`;
+                particula.style.animationDuration = `${Math.random() * 6 + 4}s`;
                 particula.style.animationDelay = `${Math.random() * 5}s`;
                 container.appendChild(particula);
             }
         }
 
-        window.onload = criarParticulas;
+        // Observador para Animação de Scroll (Entrada e Saída)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show-anim');
+                } else {
+                    // Remove a classe quando o elemento sai da tela (animação de saída)
+                    entry.target.classList.remove('show-anim');
+                }
+            });
+        }, {
+            threshold: 0.1 // Ativa quando 10% do elemento aparece na tela
+        });
+
+        window.onload = () => {
+            criarParticulas();
+            
+            // Aplica o observador a todos os elementos ocultos
+            const hiddenElements = document.querySelectorAll('.hidden-anim');
+            hiddenElements.forEach((el) => observer.observe(el));
+        };
     </script>
 </body>
 </html>
