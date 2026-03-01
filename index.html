@@ -22,7 +22,7 @@
             --branco-cromo: radial-gradient(circle at 50% 0%, #ffffff 0%, #e8e8f0 40%, #c4c4cc 100%);
             --texto-escuro: #1a1a1a;
             --texto-claro: #444;
-            --card-bg: rgba(255, 255, 255, 0.85); /* Sem desfoque para ver as partículas */
+            --card-bg: rgba(255, 255, 255, 0.85);
         }
 
         * {
@@ -54,7 +54,6 @@
             position: absolute;
             background: var(--roxo-gradiente);
             border-radius: 50%;
-            /* Desfoque leve apenas na partícula, sem embaçar a tela */
             filter: blur(2px); 
             opacity: 0.8;
             animation: floatParticle linear infinite;
@@ -67,11 +66,11 @@
             100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
         }
 
-        /* ================= CLASSES DE ANIMAÇÃO DE SCROLL (ENTRADA E SAÍDA) ================= */
+        /* ================= ANIMAÇÃO DE SCROLL ================= */
         .hidden-anim {
             opacity: 0;
             transform: translateY(60px) scale(0.95);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* Curva suave de entrada */
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .show-anim {
@@ -79,11 +78,9 @@
             transform: translateY(0) scale(1);
         }
 
-        /* Atrasos para os cards aparecerem um de cada vez */
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
-        .delay-4 { transition-delay: 0.4s; }
 
         /* ================= MARQUEE ================= */
         .top-marquee {
@@ -169,6 +166,58 @@
             font-weight: 500;
         }
 
+        /* BOTÃO PREMIUM NA CAPA */
+        .btn-premium {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 45px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            background: var(--roxo-gradiente);
+            background-size: 200% auto;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: pulseGlow 2s infinite, gradientMove 3s linear infinite;
+        }
+
+        .btn-premium::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: rgba(255,255,255,0.2);
+            transform: rotate(45deg) translateY(-100%);
+            transition: all 0.6s ease;
+        }
+
+        .btn-premium:hover::after {
+            transform: rotate(45deg) translateY(100%);
+        }
+
+        .btn-premium:hover {
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(209, 0, 255, 0.7);
+            letter-spacing: 1px;
+            color: white;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(138, 43, 226, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(209, 0, 255, 0.8); }
+            100% { box-shadow: 0 0 15px rgba(138, 43, 226, 0.5); }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .logo-3d {
             width: 100%;
             max-width: 550px;
@@ -184,7 +233,6 @@
 
         /* ================= SOBRE MIM ================= */
         .sobre {
-            /* Fundo semi-transparente sólido, sem o desfoque, para ver as partículas */
             background: rgba(255, 255, 255, 0.4);
             border-top: 1px solid rgba(255,255,255,0.5);
             border-bottom: 1px solid rgba(255,255,255,0.5);
@@ -195,18 +243,31 @@
             margin: 0 auto;
         }
 
-        .sobre p {
+        /* Nova Box com Degradê Roxo */
+        .sobre-box {
+            background: var(--roxo-gradiente);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.3);
+            color: white;
+        }
+
+        .sobre-box p {
             font-size: 1.15rem;
-            line-height: 1.8;
+            line-height: 1.7; /* Altura da linha ajustada */
             margin-bottom: 20px;
-            color: var(--texto-claro);
+            color: rgba(255, 255, 255, 0.9); /* Branco levemente suave para não cansar a vista */
             text-align: justify;
         }
 
-        .sobre p:first-of-type {
+        .sobre-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .sobre-box p:first-of-type {
             font-weight: 700;
             font-size: 1.3rem;
-            color: var(--texto-escuro);
+            color: #ffffff; /* Branco mais forte no primeiro parágrafo */
         }
 
         /* ================= PORTFÓLIO ================= */
@@ -223,15 +284,14 @@
             width: 100%;
             border-radius: 15px;
             box-shadow: 10px 10px 30px rgba(0,0,0,0.15);
-            transition: transform 0.4s ease, box-shadow 0.4s ease; /* Removido o 'all' para não conflitar com a animação de scroll */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
             padding: 4px;
             background: var(--roxo-gradiente);
-            display: flex; /* Ajuda a preencher o espaço */
+            display: flex;
         }
 
         .item-galeria img {
             width: 100%;
-            /* O segredo para não bugar: formato perfeitamente quadrado e preenchimento total */
             aspect-ratio: 1 / 1; 
             object-fit: cover; 
             border-radius: 11px;
@@ -248,7 +308,7 @@
             z-index: 10;
         }
 
-        /* ================= DEPOIMENTOS (TELA INTEIRA) ================= */
+        /* ================= DEPOIMENTOS ================= */
         .depoimentos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -273,16 +333,15 @@
             box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
         }
 
-        /* Foto/Print do Depoimento Ajustado */
         .card-depoimento img {
-            width: 100%; /* Preenche a largura do card */
+            width: 100%;
             height: auto;
-            max-height: 450px; /* Evita que o print fique gigantesco */
+            max-height: 450px;
             border-radius: 10px;
-            object-fit: contain; /* Garante que a imagem NÃO seja cortada */
+            object-fit: contain;
             margin-bottom: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            background: #000; /* Fundo escuro para caso o print seja menor */
+            background: #000;
         }
 
         .card-depoimento p {
@@ -408,12 +467,23 @@
             font-weight: bold;
         }
 
-        /* ================= RESPONSIVIDADE ================= */
+        /* ================= RESPONSIVIDADE (MOBILE AJUSTES) ================= */
         @media (max-width: 768px) {
             .hero { flex-direction: column; text-align: center; padding-top: 100px; }
             .hero .text-side { padding-right: 0; margin-bottom: 40px; }
             h1 { font-size: 3rem; }
             h2.titulo-secao { font-size: 2.2rem; }
+            
+            /* Ajustes finos do Sobre Mim para Mobile */
+            .sobre-box {
+                padding: 30px 20px; /* Reduzi o padding interno no celular */
+            }
+            .sobre-box p {
+                font-size: 1rem; /* Letra levemente menor */
+                line-height: 1.5; /* Espaçamento entre linhas reduzido */
+                margin-bottom: 15px; /* Espaço entre parágrafos reduzido */
+            }
+
             .item-galeria:nth-child(odd), .item-galeria:nth-child(even) { margin-top: 0; }
             .contato-grid { flex-direction: column; align-items: center; }
             .card-contato { width: 100%; justify-content: center; }
@@ -441,21 +511,26 @@
         <div class="text-side hidden-anim">
             <h1>Fillipe<br><span>Designer</span></h1>
             <p>Especialista em criar identidades visuais marcantes e peças gráficas que comunicam o valor do seu negócio. O design não é apenas sobre parecer bonito, é sobre funcionar perfeitamente.</p>
+            <a href="https://wa.me/5533998114025" target="_blank" class="btn-premium">Solicitar Orçamento</a>
         </div>
         <div class="image-side hidden-anim delay-2" id="3d-container">
             <img src="logo.png" alt="Logo Fillipe Designer" class="logo-3d" id="logo-img">
         </div>
     </section>
 
-    <section class="sobre hidden-anim">
+    <section class="sobre">
         <div class="sobre-container">
-            <h2 class="titulo-secao">Sobre <span>Mim</span></h2>
-            <div class="hidden-anim delay-1"><p>Sou designer especialista em Social Media, com 3 anos de experiência desenvolvendo identidades visuais e estratégias de conteúdo para marcas que desejam se posicionar de forma profissional no digital.</p></div>
-            <div class="hidden-anim delay-2"><p>Meu trabalho não é apenas criar artes bonitas. É construir presença, percepção de valor e autoridade. Cada projeto é pensado estrategicamente para fortalecer a imagem da marca e gerar impacto real.</p></div>
-            <div class="hidden-anim delay-3"><p>Acredito que design é posicionamento. Empresas que comunicam com clareza vendem mais, atraem melhores clientes e se destacam em um mercado cada vez mais competitivo.</p></div>
-            <div class="hidden-anim delay-1"><p>Minha trajetória no design começou ainda na adolescência, quando criei meu primeiro canal no YouTube e passei a desenvolver minhas próprias thumbnails, logos e banners. Foi ali que percebi o poder da comunicação visual.</p></div>
-            <div class="hidden-anim delay-2"><p>Aos 15 anos, enxerguei no crescimento do mercado digital e do home office uma oportunidade real de transformar essa habilidade em profissão. Desde então, venho estudando, aperfeiçoando técnicas e desenvolvendo projetos de forma estratégica.</p></div>
-            <div class="hidden-anim delay-3"><p>Hoje, atuo criando identidades visuais e conteúdos para marcas que desejam se posicionar com autoridade e elevar seu padrão de comunicação no ambiente digital. Se a sua marca precisa sair do amadorismo e assumir uma presença forte no mercado, eu posso construir isso com você.</p></div>
+            <h2 class="titulo-secao hidden-anim">Sobre <span>Mim</span></h2>
+            
+            <div class="sobre-box hidden-anim delay-1">
+                <p>Sou designer especialista em Social Media, com 3 anos de experiência desenvolvendo identidades visuais e estratégias de conteúdo para marcas que desejam se posicionar de forma profissional no digital.</p>
+                <p>Meu trabalho não é apenas criar artes bonitas. É construir presença, percepção de valor e autoridade. Cada projeto é pensado estrategicamente para fortalecer a imagem da marca e gerar impacto real.</p>
+                <p>Acredito que design é posicionamento. Empresas que comunicam com clareza vendem mais, atraem melhores clientes e se destacam em um mercado cada vez mais competitivo.</p>
+                <p>Minha trajetória no design começou ainda na adolescência, quando criei meu primeiro canal no YouTube e passei a desenvolver minhas próprias thumbnails, logos e banners. Foi ali que percebi o poder da comunicação visual.</p>
+                <p>Aos 15 anos, enxerguei no crescimento do mercado digital e do home office uma oportunidade real de transformar essa habilidade em profissão. Desde então, venho estudando, aperfeiçoando técnicas e desenvolvendo projetos de forma estratégica.</p>
+                <p>Hoje, atuo criando identidades visuais e conteúdos para marcas que desejam se posicionar com autoridade e elevar seu padrão de comunicação no ambiente digital. Se a sua marca precisa sair do amadorismo e assumir uma presença forte no mercado, eu posso construir isso com você.</p>
+            </div>
+
         </div>
     </section>
 
@@ -527,7 +602,6 @@
     </footer>
 
     <script>
-        // Efeito 3D na Logo
         const container = document.getElementById('3d-container');
         const logo = document.getElementById('logo-img');
 
@@ -546,7 +620,6 @@
             logo.style.transition = "none";
         });
 
-        // Gerador de Partículas
         function criarParticulas() {
             const container = document.getElementById('particles-container');
             const quantidade = window.innerWidth < 768 ? 20 : 40;
@@ -564,24 +637,20 @@
             }
         }
 
-        // Observador para Animação de Scroll (Entrada e Saída)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('show-anim');
                 } else {
-                    // Remove a classe quando o elemento sai da tela (animação de saída)
                     entry.target.classList.remove('show-anim');
                 }
             });
         }, {
-            threshold: 0.1 // Ativa quando 10% do elemento aparece na tela
+            threshold: 0.1
         });
 
         window.onload = () => {
             criarParticulas();
-            
-            // Aplica o observador a todos os elementos ocultos
             const hiddenElements = document.querySelectorAll('.hidden-anim');
             hiddenElements.forEach((el) => observer.observe(el));
         };
