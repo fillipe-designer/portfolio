@@ -39,7 +39,7 @@
             position: relative;
         }
 
-        /* ================= PARTÍCULAS ================= */
+        /* ================= PARTÍCULAS (OTIMIZADAS - SEM DESFOQUE) ================= */
         #particles-container {
             position: fixed;
             top: 0;
@@ -54,7 +54,7 @@
             position: absolute;
             background: var(--roxo-gradiente);
             border-radius: 50%;
-            filter: blur(2px); 
+            /* filter: blur(2px); <-- REMOVIDO PARA MELHORAR PERFORMANCE */
             opacity: 0.8;
             animation: floatParticle linear infinite;
         }
