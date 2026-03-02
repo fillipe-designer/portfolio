@@ -39,7 +39,7 @@
             position: relative;
         }
 
-        /* ================= PARTÍCULAS (OTIMIZADAS - SEM DESFOQUE) ================= */
+        /* ================= PARTÍCULAS ================= */
         #particles-container {
             position: fixed;
             top: 0;
@@ -54,7 +54,6 @@
             position: absolute;
             background: var(--roxo-gradiente);
             border-radius: 50%;
-            /* filter: blur(2px); <-- REMOVIDO PARA MELHORAR PERFORMANCE */
             opacity: 0.8;
             animation: floatParticle linear infinite;
         }
@@ -647,11 +646,12 @@
             threshold: 0.1
         });
 
-        window.onload = () => {
+        // A MÁGICA FOI FEITA AQUI: Troquei 'window.onload' por 'DOMContentLoaded'
+        document.addEventListener("DOMContentLoaded", () => {
             criarParticulas();
             const hiddenElements = document.querySelectorAll('.hidden-anim');
             hiddenElements.forEach((el) => observer.observe(el));
-        };
+        });
     </script>
 </body>
 </html>
