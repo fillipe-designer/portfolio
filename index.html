@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Fillipe Designer | Portfólio Premium</title>
-    
     <link rel="icon" type="image/png" href="logo.png">
     
     <meta property="og:title" content="Fillipe Designer | Portfólio Premium">
@@ -16,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* ================= VARIÁVEIS E RESET ================= */
         :root {
             --roxo-gradiente: linear-gradient(135deg, #8a2be2 0%, #d100ff 50%, #4b0082 100%);
             --branco-cromo: radial-gradient(circle at 50% 0%, #ffffff 0%, #e8e8f0 40%, #c4c4cc 100%);
@@ -39,13 +37,11 @@
             position: relative;
         }
 
-        /* ================= PARTÍCULAS ================= */
+        /* === PARTÍCULAS OTIMIZADAS PARA PERFORMANCE === */
         #particles-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             pointer-events: none;
             z-index: 0;
         }
@@ -54,39 +50,41 @@
             position: absolute;
             background: var(--roxo-gradiente);
             border-radius: 50%;
-            filter: blur(2px); 
-            opacity: 0.8;
+            opacity: 0.6;
             animation: floatParticle linear infinite;
+            /* Força Aceleração de Hardware */
+            will-change: transform; 
         }
 
         @keyframes floatParticle {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
+            /* translate3d é muito mais leve para o navegador processar */
+            0% { transform: translate3d(0, 100vh, 0) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translate3d(0, -20vh, 0) scale(1.5); opacity: 0; }
         }
 
-        /* ================= ANIMAÇÃO DE SCROLL ================= */
+        /* === ANIMAÇÃO DE SCROLL (MAIS LEVE) === */
         .hidden-anim {
             opacity: 0;
-            transform: translateY(60px) scale(0.95);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
         }
 
         .show-anim {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
 
-        /* ================= MARQUEE ================= */
+        /* === MARQUEE === */
         .top-marquee {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 0; width: 100%;
             background: var(--roxo-gradiente);
             color: #fff;
             padding: 8px 0;
@@ -103,14 +101,15 @@
         .marquee-content {
             display: inline-block;
             animation: marquee 25s linear infinite;
+            will-change: transform;
         }
 
         @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
 
-        /* ================= SEÇÕES GERAIS ================= */
+        /* === SEÇÕES GERAIS === */
         section {
             position: relative;
             z-index: 1;
@@ -118,10 +117,8 @@
         }
 
         h2.titulo-secao {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 50px;
-            font-weight: 900;
+            font-size: 3rem; text-align: center;
+            margin-bottom: 50px; font-weight: 900;
             text-transform: uppercase;
         }
 
@@ -131,80 +128,37 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* ================= CAPA ================= */
+        /* === CAPA === */
         .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 100vh;
-            padding-top: 120px;
+            display: flex; align-items: center; justify-content: space-between;
+            min-height: 100vh; padding-top: 120px;
         }
 
         .hero .text-side { flex: 1; padding-right: 50px; }
         .hero .image-side { flex: 1; display: flex; justify-content: flex-end; perspective: 1000px; }
 
-        h1 {
-            font-size: 4.5rem;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            font-weight: 900;
-        }
+        h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; }
+        h1 span { background: var(--roxo-gradiente); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: block; }
+        .hero p { font-size: 1.2rem; line-height: 1.6; margin-bottom: 40px; color: var(--texto-claro); font-weight: 500; }
 
-        h1 span {
-            background: var(--roxo-gradiente);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: block;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            color: var(--texto-claro);
-            font-weight: 500;
-        }
-
-        /* BOTÃO PREMIUM NA CAPA */
         .btn-premium {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 18px 45px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            background: var(--roxo-gradiente);
-            background-size: 200% auto;
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 18px 45px; font-size: 1.2rem; font-weight: bold; color: white;
+            text-decoration: none; border-radius: 50px;
+            background: var(--roxo-gradiente); background-size: 200% auto;
             box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.4s ease; position: relative; overflow: hidden;
             animation: pulseGlow 2s infinite, gradientMove 3s linear infinite;
         }
 
         .btn-premium::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: rgba(255,255,255,0.2);
-            transform: rotate(45deg) translateY(-100%);
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: rgba(255,255,255,0.2); transform: rotate(45deg) translateY(-100%);
             transition: all 0.6s ease;
         }
 
-        .btn-premium:hover::after {
-            transform: rotate(45deg) translateY(100%);
-        }
-
-        .btn-premium:hover {
-            transform: scale(1.08) translateY(-5px);
-            box-shadow: 0 15px 30px rgba(209, 0, 255, 0.7);
-            letter-spacing: 1px;
-            color: white;
-        }
+        .btn-premium:hover::after { transform: rotate(45deg) translateY(100%); }
+        .btn-premium:hover { transform: scale(1.08) translateY(-5px); box-shadow: 0 15px 30px rgba(209, 0, 255, 0.7); letter-spacing: 1px; color: white; }
 
         @keyframes pulseGlow {
             0% { box-shadow: 0 0 15px rgba(138, 43, 226, 0.5); }
@@ -219,269 +173,116 @@
         }
 
         .logo-3d {
-            width: 100%;
-            max-width: 550px;
-            border-radius: 20px;
+            width: 100%; max-width: 550px; border-radius: 20px;
             transform: rotateY(-15deg) rotateX(10deg);
             box-shadow: -20px 20px 40px rgba(0,0,0,0.2);
-            transition: transform 0.1s ease-out;
-            border: 2px solid transparent;
+            transition: transform 0.1s ease-out; border: 2px solid transparent;
             background-image: linear-gradient(#000, #000), var(--roxo-gradiente);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
+            background-origin: border-box; background-clip: padding-box, border-box;
+            will-change: transform;
         }
 
-        /* ================= SOBRE MIM ================= */
+        /* === SOBRE MIM === */
         .sobre {
             background: rgba(255, 255, 255, 0.4);
-            border-top: 1px solid rgba(255,255,255,0.5);
-            border-bottom: 1px solid rgba(255,255,255,0.5);
+            border-top: 1px solid rgba(255,255,255,0.5); border-bottom: 1px solid rgba(255,255,255,0.5);
         }
-
-        .sobre-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
+        .sobre-container { max-width: 900px; margin: 0 auto; }
         .sobre-box {
-            background: var(--roxo-gradiente);
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.3);
-            color: white;
+            background: var(--roxo-gradiente); padding: 50px; border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.3); color: white;
         }
+        .sobre-box p { font-size: 1.15rem; line-height: 1.7; margin-bottom: 20px; color: rgba(255, 255, 255, 0.9); text-align: justify; }
+        .sobre-box p:last-child { margin-bottom: 0; }
+        .sobre-box p:first-of-type { font-weight: 700; font-size: 1.3rem; color: #ffffff; }
 
-        .sobre-box p {
-            font-size: 1.15rem;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            color: rgba(255, 255, 255, 0.9);
-            text-align: justify;
-        }
-
-        .sobre-box p:last-child {
-            margin-bottom: 0;
-        }
-
-        .sobre-box p:first-of-type {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #ffffff;
-        }
-
-        /* ================= PORTFÓLIO ================= */
+        /* === PORTFÓLIO === */
         .galeria-espalhada {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px; width: 100%; max-width: 1200px; margin: 0 auto;
         }
-
         .item-galeria {
-            width: 100%;
-            border-radius: 15px;
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.15);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            padding: 4px;
-            background: var(--roxo-gradiente);
-            display: flex;
+            width: 100%; border-radius: 15px; box-shadow: 10px 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease; padding: 4px;
+            background: var(--roxo-gradiente); display: flex;
         }
-
         .item-galeria img {
-            width: 100%;
-            aspect-ratio: 1 / 1; 
-            object-fit: cover; 
-            border-radius: 11px;
-            display: block;
-            background-color: #222;
+            width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 11px;
+            display: block; background-color: #222;
         }
-
         .item-galeria:nth-child(odd) { margin-top: 15px; }
         .item-galeria:nth-child(even) { margin-top: -15px; }
-
         .item-galeria:hover {
             transform: scale(1.05) translateY(-5px) !important;
-            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.5);
-            z-index: 10;
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.5); z-index: 10;
         }
 
-        /* ================= DEPOIMENTOS ================= */
+        /* === DEPOIMENTOS === */
         .depoimentos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            max-width: 1000px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px; max-width: 1000px; margin: 0 auto;
         }
-
         .card-depoimento {
-            background: var(--card-bg);
-            padding: 40px 30px;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid rgba(138, 43, 226, 0.3);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-            transition: transform 0.4s ease, border-color 0.4s ease;
+            background: var(--card-bg); padding: 40px 30px; border-radius: 20px; text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
-
         .card-depoimento:hover {
-            transform: translateY(-10px) !important;
-            border-color: rgba(209, 0, 255, 0.8);
+            transform: translateY(-10px) !important; border-color: rgba(209, 0, 255, 0.8);
             box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
         }
-
         .card-depoimento img {
-            width: 100%;
-            height: auto;
-            max-height: 450px;
-            border-radius: 10px;
-            object-fit: contain;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            background: #000;
+            width: 100%; height: auto; max-height: 450px; border-radius: 10px;
+            object-fit: contain; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); background: #000;
         }
+        .card-depoimento p { font-style: italic; color: var(--texto-claro); margin-bottom: 20px; font-size: 1.1rem; }
+        .card-depoimento h4 { font-weight: 700; color: var(--texto-escuro); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
 
-        .card-depoimento p {
-            font-style: italic;
-            color: var(--texto-claro);
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-
-        .card-depoimento h4 {
-            font-weight: 700;
-            color: var(--texto-escuro);
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        /* ================= SERVIÇOS ================= */
+        /* === SERVIÇOS === */
         .servicos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; max-width: 1200px; margin: 0 auto;
         }
-
         .card-servico {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            padding: 30px 20px;
-            border-radius: 15px;
-            text-align: center;
-            font-weight: 900;
-            font-size: 1.1rem;
-            color: var(--texto-escuro);
-            transition: transform 0.4s ease, color 0.4s ease;
-            cursor: default;
-            position: relative;
-            overflow: hidden;
+            background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(255, 255, 255, 0.9);
+            padding: 30px 20px; border-radius: 15px; text-align: center; font-weight: 900;
+            font-size: 1.1rem; color: var(--texto-escuro); transition: transform 0.3s ease, color 0.3s ease;
+            position: relative; overflow: hidden;
         }
-
         .card-servico::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--roxo-gradiente);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--roxo-gradiente); opacity: 0; transition: opacity 0.3s ease; z-index: -1;
         }
+        .card-servico:hover { color: white; transform: scale(1.05) !important; box-shadow: 0 10px 25px rgba(138, 43, 226, 0.3); border-color: transparent; }
+        .card-servico:hover::before { opacity: 1; }
 
-        .card-servico:hover {
-            color: white;
-            transform: scale(1.05) !important;
-            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.3);
-            border-color: transparent;
-        }
-
-        .card-servico:hover::before {
-            opacity: 1;
-        }
-
-        /* ================= CONTATO PREMIUM ================= */
-        .contato {
-            padding-bottom: 120px;
-        }
-
-        .contato-grid {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
+        /* === CONTATO === */
+        .contato { padding-bottom: 120px; }
+        .contato-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
         .card-contato {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            background: rgba(20, 20, 20, 0.85);
-            padding: 25px 40px;
-            border-radius: 20px;
-            text-decoration: none;
-            color: white;
-            font-weight: 700;
-            font-size: 1.4rem;
-            border: 2px solid transparent;
+            display: flex; align-items: center; gap: 20px; background: rgba(20, 20, 20, 0.85);
+            padding: 25px 40px; border-radius: 20px; text-decoration: none; color: white;
+            font-weight: 700; font-size: 1.4rem; border: 2px solid transparent;
             background-image: linear-gradient(rgba(20, 20, 20, 0.85), rgba(20, 20, 20, 0.85)), var(--roxo-gradiente);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            background-origin: border-box; background-clip: padding-box, border-box;
+            transition: transform 0.3s ease; box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
+        .card-contato svg { width: 40px; height: 40px; fill: url(#roxo-gradiente-svg); transition: transform 0.3s ease; }
+        .card-contato:hover { transform: translateY(-10px) scale(1.02) !important; box-shadow: 0 20px 40px rgba(138, 43, 226, 0.5); }
+        .card-contato:hover svg { transform: scale(1.2) rotate(5deg); }
 
-        .card-contato svg {
-            width: 40px;
-            height: 40px;
-            fill: url(#roxo-gradiente-svg);
-            transition: transform 0.4s ease;
-        }
+        /* === FOOTER === */
+        footer { text-align: center; padding: 30px 20px; background: var(--texto-escuro); color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; position: relative; z-index: 1; }
+        footer span { color: #d100ff; font-weight: bold; }
 
-        .card-contato:hover {
-            transform: translateY(-10px) scale(1.02) !important;
-            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.5);
-        }
-
-        .card-contato:hover svg {
-            transform: scale(1.2) rotate(5deg);
-        }
-
-        /* ================= FOOTER ================= */
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            background: var(--texto-escuro);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        footer span {
-            color: #d100ff;
-            font-weight: bold;
-        }
-
-        /* ================= RESPONSIVIDADE (MOBILE) ================= */
+        /* === RESPONSIVIDADE (MOBILE) === */
         @media (max-width: 768px) {
             .hero { flex-direction: column; text-align: center; padding-top: 100px; }
             .hero .text-side { padding-right: 0; margin-bottom: 40px; }
             h1 { font-size: 3rem; }
             h2.titulo-secao { font-size: 2.2rem; }
-            
-            .sobre-box {
-                padding: 30px 20px; 
-            }
-            .sobre-box p {
-                font-size: 1rem; 
-                line-height: 1.5; 
-                margin-bottom: 15px; 
-            }
-
+            .sobre-box { padding: 30px 20px; }
+            .sobre-box p { font-size: 1rem; line-height: 1.5; margin-bottom: 15px; }
             .item-galeria:nth-child(odd), .item-galeria:nth-child(even) { margin-top: 0; }
             .contato-grid { flex-direction: column; align-items: center; }
             .card-contato { width: 100%; justify-content: center; }
@@ -519,7 +320,6 @@
     <section class="sobre">
         <div class="sobre-container">
             <h2 class="titulo-secao hidden-anim">Sobre <span>Mim</span></h2>
-            
             <div class="sobre-box hidden-anim delay-1">
                 <p>Sou designer especialista em Social Media, com 3 anos de experiência desenvolvendo identidades visuais e estratégias de conteúdo para marcas que desejam se posicionar de forma profissional no digital.</p>
                 <p>Meu trabalho não é apenas criar artes bonitas. É construir presença, percepção de valor e autoridade. Cada projeto é pensado estrategicamente para fortalecer a imagem da marca e gerar impacto real.</p>
@@ -528,21 +328,20 @@
                 <p>Aos 15 anos, enxerguei no crescimento do mercado digital e do home office uma oportunidade real de transformar essa habilidade em profissão. Desde então, venho estudando, aperfeiçoando técnicas e desenvolvendo projetos de forma estratégica.</p>
                 <p>Hoje, atuo criando identidades visuais e conteúdos para marcas que desejam se posicionar com autoridade e elevar seu padrão de comunicação no ambiente digital. Se a sua marca precisa sair do amadorismo e assumir uma presença forte no mercado, eu posso construir isso com você.</p>
             </div>
-
         </div>
     </section>
 
     <section class="portfolio">
         <h2 class="titulo-secao hidden-anim">Meus <span>Trabalhos</span></h2>
         <div class="galeria-espalhada">
-            <div class="item-galeria hidden-anim delay-1"><img src="img.1.png" alt="Trabalho 1"></div>
-            <div class="item-galeria hidden-anim delay-2"><img src="img.2.png" alt="Trabalho 2"></div>
-            <div class="item-galeria hidden-anim delay-3"><img src="img.3.jpg" alt="Trabalho 3"></div>
-            <div class="item-galeria hidden-anim delay-1"><img src="img.4.png" alt="Trabalho 4"></div>
-            <div class="item-galeria hidden-anim delay-2"><img src="img.5.jpg" alt="Trabalho 5"></div>
-            <div class="item-galeria hidden-anim delay-3"><img src="img.6.jpg" alt="Trabalho 6"></div>
-            <div class="item-galeria hidden-anim delay-1"><img src="img.7.png" alt="Trabalho 7"></div>
-            <div class="item-galeria hidden-anim delay-2"><img src="img.8.png" alt="Trabalho 8"></div>
+            <div class="item-galeria hidden-anim delay-1"><img src="img.1.png" alt="Trabalho 1" loading="lazy"></div>
+            <div class="item-galeria hidden-anim delay-2"><img src="img.2.png" alt="Trabalho 2" loading="lazy"></div>
+            <div class="item-galeria hidden-anim delay-3"><img src="img.3.jpg" alt="Trabalho 3" loading="lazy"></div>
+            <div class="item-galeria hidden-anim delay-1"><img src="img.4.png" alt="Trabalho 4" loading="lazy"></div>
+            <div class="item-galeria hidden-anim delay-2"><img src="img.5.jpg" alt="Trabalho 5" loading="lazy"></div>
+            <div class="item-galeria hidden-anim delay-3"><img src="img.6.jpg" alt="Trabalho 6" loading="lazy"></div>
+            <div class="item-galeria hidden-anim delay-1"><img src="img.7.png" alt="Trabalho 7" loading="lazy"></div>
+            <div class="item-galeria hidden-anim delay-2"><img src="img.8.png" alt="Trabalho 8" loading="lazy"></div>
         </div>
     </section>
 
@@ -550,12 +349,12 @@
         <h2 class="titulo-secao hidden-anim">O Que Dizem <span>Sobre Meu Trabalho</span></h2>
         <div class="depoimentos-grid">
             <div class="card-depoimento hidden-anim delay-1">
-                <img src="depoimento.1.jpeg" alt="Print de Depoimento 1">
+                <img src="depoimento.1.jpeg" alt="Print de Depoimento 1" loading="lazy">
                 <p>"Responsável pela gestão do Instagram de loja no segmento E-commerce"</p>
                 <h4>Parceiro E-commerce</h4>
             </div>
             <div class="card-depoimento hidden-anim delay-2">
-                <img src="depoimento.2.jpeg" alt="Print de Depoimento 2">
+                <img src="depoimento.2.jpeg" alt="Print de Depoimento 2" loading="lazy">
                 <p>"Guia turística brasileira atuando no mercado europeu 🇪🇸"</p>
                 <h4>Junia Vieira | VIAJESGRANVÍA</h4>
             </div>
@@ -600,41 +399,52 @@
     </footer>
 
     <script>
+        // === CONTROLE 3D OTIMIZADO ===
         const container = document.getElementById('3d-container');
         const logo = document.getElementById('logo-img');
+        let isHovering = false;
 
         container.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            logo.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            if(!isHovering) return;
+            // Usar requestAnimationFrame melhora a performance do mouse
+            window.requestAnimationFrame(() => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 30;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 30;
+                logo.style.transform = `translate3d(0,0,0) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
         });
 
         container.addEventListener('mouseleave', () => {
+            isHovering = false;
             logo.style.transition = "transform 0.5s ease";
-            logo.style.transform = `rotateY(-15deg) rotateX(10deg)`;
+            logo.style.transform = `translate3d(0,0,0) rotateY(-15deg) rotateX(10deg)`;
         });
 
         container.addEventListener('mouseenter', () => {
+            isHovering = true;
             logo.style.transition = "none";
         });
 
+        // === PARTÍCULAS REDUZIDAS ===
         function criarParticulas() {
             const container = document.getElementById('particles-container');
-            const quantidade = window.innerWidth < 768 ? 20 : 40;
+            // Menos partículas significa muito mais fluidez no celular
+            const quantidade = window.innerWidth < 768 ? 10 : 25; 
 
             for (let i = 0; i < quantidade; i++) {
                 let particula = document.createElement('div');
                 particula.classList.add('particle');
-                let tamanho = Math.random() * 12 + 4;
+                let tamanho = Math.random() * 10 + 4;
                 particula.style.width = `${tamanho}px`;
                 particula.style.height = `${tamanho}px`;
                 particula.style.left = `${Math.random() * 100}vw`;
-                particula.style.animationDuration = `${Math.random() * 6 + 4}s`;
+                particula.style.animationDuration = `${Math.random() * 8 + 5}s`;
                 particula.style.animationDelay = `${Math.random() * 5}s`;
                 container.appendChild(particula);
             }
         }
 
+        // === OBSERVER MAIS LEVE ===
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -644,7 +454,7 @@
                 }
             });
         }, {
-            threshold: 0.1
+            threshold: 0.05 // Dispara um pouco antes para não travar a rolagem
         });
 
         window.onload = () => {
