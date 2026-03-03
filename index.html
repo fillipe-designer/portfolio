@@ -39,7 +39,7 @@
             position: relative;
         }
 
-        /* ================= PARTÍCULAS ================= */
+        /* ================= PARTÍCULAS (OTIMIZADAS - SEM DESFOQUE) ================= */
         #particles-container {
             position: fixed;
             top: 0;
@@ -255,7 +255,7 @@
             line-height: 1.7;
             margin-bottom: 20px;
             color: rgba(255, 255, 255, 0.9);
-            text-align: justify;
+            text-align: justify; /* Justificado no PC */
         }
 
         .sobre-box p:last-child {
@@ -479,6 +479,7 @@
                 font-size: 1rem; 
                 line-height: 1.5; 
                 margin-bottom: 15px; 
+                text-align: left; /* CORREÇÃO DO ESPAÇAMENTO NO MOBILE */
             }
 
             .item-galeria:nth-child(odd), .item-galeria:nth-child(even) { margin-top: 0; }
@@ -646,7 +647,6 @@
             threshold: 0.1
         });
 
-        // A MÁGICA FOI FEITA AQUI: Troquei 'window.onload' por 'DOMContentLoaded'
         document.addEventListener("DOMContentLoaded", () => {
             criarParticulas();
             const hiddenElements = document.querySelectorAll('.hidden-anim');
